@@ -3,25 +3,34 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        r,c = [], []
         rowCount = len(matrix)
         colCount = len(matrix[0])
-        for i in range(rowCount):
-            if 0 not in matrix[i]:
-                continue
-            row_entry = matrix[i]
-            r.append(i)
-            for j in range(colCount):
-                if row_entry[j]==0:
-                    if j not in c:
-                        c.append(j)
         
-        for element in r:
-            matrix[element] = [0]*colCount
+        firstRowZero, firstColZero = False, False
+        
+        if 0 in matrix[0]:
+            firstRowZero = True
+        
+        for i in range(rowCount):
+            if matrix[i][0]==0:
+                firstColZero = True
+                break
             
-        for element in c:
+        for i in range(1, rowCount):
+            for j in range(1, colCount):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = 0
+                    matrix[0][j] = 0
+                    
+        for i in range(1, rowCount):
+            for j in range(1, colCount):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+                    
+        if firstRowZero:
+            matrix[0] = [0]*colCount
+        
+        if firstColZero:
             for i in range(rowCount):
-                matrix[i][element] = 0
-          
-        # print(matrix)
+                matrix[i][0] = 0
         
